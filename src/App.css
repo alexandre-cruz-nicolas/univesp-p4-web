@@ -1,0 +1,132 @@
+#page-home {
+  height: 100vh;
+  background: url('./assets/logo_univesp_700.png') no-repeat center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.App-top {
+  background-color: #282c34;
+  height: 80px;
+  width: 100%;
+  display: flex;
+}
+
+.App-top img {
+  padding: 8px;
+}
+
+.App-miolo {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.253);
+  width: 100%;
+  height: 100%;
+}
+
+.App-left {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 1vmin);
+  color: white;
+  width: 156px;
+  align-items: center;
+}
+
+.App-modal {
+  padding: 20px;
+  width: 42%;
+  border: 2px solid black;
+  border-radius: 20px;
+  margin: 20px 20px;
+
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  background-color: rgb(212, 210, 210);
+}
+
+.App-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(82, 72, 72, 0.507);
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+}
+
+.div-multicheckbox {
+  background-color: #729df5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  margin-top: 4px;
+}
+
+.div-multicheckbox-caption {
+  font-size: calc(9px + 1vmin);
+  color: white;
+}
+
+.div-multicheckbox-caption span {
+  margin-left: 4px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.div-multicheckbox-caption span:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.div-multicheckbox-options {
+  background-color: #c2d6ff;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  width: 100%;
+  color: black;
+  display: grid;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.botaotopo {
+  display: flex;
+  background-color: rgba(24, 99, 112, 0.829);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  font-size: calc(9px + 1vmin);
+  align-items: center;
+  padding: 8px;
+  margin: 4px 4px 4px 4px;
+  width: 160px;
+}
+
+.botaotopo span {
+  color: white;
+  margin-right: 8px;
+  margin-top: 4px
+}
+
+.botaotopo:hover {
+  background-color: rgba(24, 99, 112, 0.5);
+}
