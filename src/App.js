@@ -75,7 +75,8 @@ function App() {
           <BotaoTopo icone={<TfiInfoAlt />} onClick={abrirAbout} title="Sobre o projeto"/>
       </div>
     <div id="page-home">
-      
+
+
       <ReactModal 
               className="App-modal"
               overlayClassName="App-modal-overlay"
@@ -116,7 +117,7 @@ function App() {
         />
       </div>
       <div className="App-miolo">
-          
+          <div></div>
       </div>
     </div>
     </div>

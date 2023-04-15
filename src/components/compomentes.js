@@ -29,6 +29,7 @@ export const About = (props) => {
         <p>
           <div>ADRIANO MARTINS TEZA</div>
           <div>ALEXANDRE CRUZ NICOLAS</div>
+          <div>CÍNDILA BERTOLUCCI</div>
           <div>RENAN CRISTIAN BOAVENTURA</div>
           <div>SELIANE ROBLES TEZA</div>
         </p>
