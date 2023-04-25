@@ -1,6 +1,6 @@
 #page-home {
   height: 100vh;
-  background: url('./assets/logo_univesp_700.png') no-repeat center;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -19,9 +19,9 @@
 
 .App-miolo {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.253);
-  width: 100%;
-  height: 100%;
+  width: calc(100vw-156px);
+  height: 95%;
+ /* background: url('./assets/logo_univesp_700.png') no-repeat center;*/
 }
 
 .App-left {
@@ -80,16 +80,36 @@
   margin-top: 4px;
 }
 
+.span-multicheckbox-esquerda {
+  margin-right: 0%;
+
+}
+
 .div-multicheckbox-caption {
+  display: flex;
+  flex-direction: row;
   font-size: calc(9px + 1vmin);
   color: white;
+  width: 98%;
 }
 
 .div-multicheckbox-caption span {
-  margin-left: 4px;
-  padding: 4px;
   background: rgba(0, 0, 0, 0.08);
   cursor: pointer;
+  flex: 1;
+}
+
+.div-multicheckbox-caption .spanEsquerda{
+  flex: 1;
+}
+
+.div-multicheckbox-caption .spanDireita{
+    flex: 1;
+}
+
+.div-multicheckbox-caption .textoCentro{
+  flex: 4;
+  text-align: center;
 }
 
 .div-multicheckbox-caption span:hover {
@@ -129,4 +149,11 @@
 
 .botaotopo:hover {
   background-color: rgba(24, 99, 112, 0.5);
+}
+
+.chartRow {
+  flex-direction: column;
+  padding: 4px;
+  display: flex;
+  border: 2px solid black;
 }

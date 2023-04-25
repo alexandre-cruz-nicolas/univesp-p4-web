@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { TfiAngleDoubleDown, TfiAngleDoubleUp, TfiCheckBox } from "react-icons/tfi";
+import logo from "../assets/logo_univesp.png";
 
 export const BotaoTopo = (props) => {
   return (
@@ -14,9 +15,12 @@ export const BotaoTopo = (props) => {
 }
 
 export const About = (props) => {
+  
+
   return (
       <div>
         <h2>smartEYE (2023)</h2>
+        <img src={logo} width={200} />
         <h3>Site desenvolvido para a disciplina "Projeto Integrador em Engenharia de Computação IV".</h3>
         <p>
           O smartEYE é um dashboard de análise de dados meteorológicos, a partir de dados
@@ -26,13 +30,13 @@ export const About = (props) => {
         </p>
         <a href="https://portal.inmet.gov.br/" target="_blank" rel="noreferrer">Site do INMET</a>
         <h3>Alunos participantes deste projeto:</h3>
-        <p>
-          <div>ADRIANO MARTINS TEZA</div>
-          <div>ALEXANDRE CRUZ NICOLAS</div>
-          <div>CÍNDILA BERTOLUCCI</div>
-          <div>RENAN CRISTIAN BOAVENTURA</div>
-          <div>SELIANE ROBLES TEZA</div>
-        </p>
+          <p>
+          ADRIANO MARTINS TEZA<br/>
+          ALEXANDRE CRUZ NICOLAS<br/>
+          CÍNDILA BERTOLUCCI<br/>
+          RENAN CRISTIAN BOAVENTURA<br/>
+          SELIANE ROBLES TEZA<br/>
+          </p>
         <h3>Orientador deste projeto:</h3>
         <p>
           Prof. Felipe Augusto Aureliano
@@ -42,39 +46,63 @@ export const About = (props) => {
   )
 }
 
-export const MultiCheckBox = (props) =>{
+export function MultiCheckBox({id,label,caption,options,optionsSelected,onClick,onClickAll,width,optionsFontSize,maxItems}) {
   const [ colapsed , setColapsed ] = useState(true);
-  const caption=props.caption;
-  const options=props.options;
-  const onclick=props.onClick;
-  const onclickall=props.onClickAll;
-  const fontsize = props.optionsFontSize === undefined ? "calc(10px + 1vmin)" : props.optionsFontSize;
+  const fontsize = optionsFontSize === undefined ? "calc(10px + 1vmin)" : optionsFontSize;
+
+  const isCheked = (item) => {
+    const achou = optionsSelected.includes(item);
+    return achou;
+  }
+
+  const handleSelected = (item) =>{
+    const achou = optionsSelected.includes(item);
+    let newSelectedItems = [...optionsSelected];
+    if(achou){
+      newSelectedItems.splice(newSelectedItems.indexOf(item), 1);
+    } else { 
+      if(maxItems==="1" && newSelectedItems.length===1) {
+
+      } else {
+        newSelectedItems.push(item);
+      }
+    }
+    onClick(newSelectedItems);
+  }
+
+  const handleSelectAll = () => {
+    onClickAll();
+  };
 
   return(
     <div className="div-multicheckbox" 
-      style={{width: `${props.width}`}} 
+      style={{width: `${width}`}} 
     >
       <div className="div-multicheckbox-caption">
-          <span onClick={() => setColapsed(!colapsed) }>
+          <span onClick={() => setColapsed(!colapsed)} className="spanEsquerda">
             {colapsed ? <TfiAngleDoubleDown /> : <TfiAngleDoubleUp />}
           </span>
-          {caption}
-          <span onClick={() => onclickall()}>
-             <TfiCheckBox />
-          </span>
+          <div className='textoCentro'>{caption}</div>
+          {maxItems!=="1" && (
+            <span onClick={() => handleSelectAll()}  className="spanDireita">
+              <TfiCheckBox />
+            </span>
+          )}
+          
       </div>
+
       <div className="div-multicheckbox-options"
             style={{display: colapsed ? 'none' : 'grid',
             fontSize: `${fontsize}`
           }}
       >
           {options.map((item,indice)=>
-            <label key={item[props.id]}>
+            <label key={item[id]}>
               <input type="checkbox"
-                onClick = {() => onclick(item[props.id]) }
+                onClick = {() => handleSelected(item[id])} 
+                checked = { isCheked(item[id]) }
               />
-              {item[props.label]}
-              
+              {item[label]}
             </label>
           )
           }
