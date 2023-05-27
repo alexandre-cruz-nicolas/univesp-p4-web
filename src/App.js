@@ -10,6 +10,7 @@ import jMinMaxT from './data/minmaxt.json';
 import jMediaT from './data/mediat.json';
 import jAnos from './data/anos.json';
 import jMeses from './data/meses.json';
+import jMediaC from './data/mediaC.json';
 
 import logo from './assets/logo-smarteye-72.png';
 
@@ -18,7 +19,8 @@ function App() {
   const [ anosChecked , setAnosChecked ] = useState([]);
   const [ estacoesChecked , setEstacoesChecked ] = useState([]);
   const [ isOpenAbout, setIsOpenAbout ] = useState(false);
-  const [ showChart , setShowChart ] = useState(false);
+  const [ showChart1 , setShowChart1 ] = useState(false);
+  const [ showChart2 , setShowChart2 ] = useState(false);
 
   function abrirAbout() {
     setIsOpenAbout(true);
@@ -31,7 +33,8 @@ function App() {
   function clicouAnos(aNovo) {
     let aNovoNovo = [...aNovo];
     setAnosChecked(aNovoNovo);
-    setShowChart(false);
+    setShowChart1(false);
+    setShowChart2(false);
   }
 
   function clicouTodosAnos() {
@@ -42,13 +45,15 @@ function App() {
       aNovo = todos.map((x) => x.ano)
     }
     setAnosChecked(aNovo);
-    setShowChart(false);
+    setShowChart1(false);
+    setShowChart2(false);
   }
 
   function clicouMeses(aNovo) {
     let aNovoNovo = [...aNovo];
     setMesesChecked(aNovoNovo);
-    setShowChart(false);
+    setShowChart1(false);
+    setShowChart2(false);
   }
 
   function clicouTodosMeses() {
@@ -59,13 +64,15 @@ function App() {
       aNovo = todos.map((x) => x.key)
     }
     setMesesChecked(aNovo);
-    setShowChart(false);
+    setShowChart1(false);
+    setShowChart2(false);
   }
 
   function clicouEstacoes(aNovo) {
     let aNovoNovo = [...aNovo];
     setEstacoesChecked(aNovoNovo);
-    setShowChart(false);
+    setShowChart1(false);
+    setShowChart2(false);
   }
 
   function clicouTodasEstacoes() {
@@ -76,10 +83,11 @@ function App() {
       aNovo = todos.map((x) => x.id)
     }
     setEstacoesChecked(aNovo);
-    setShowChart(false);
+    setShowChart1(false);
+    setShowChart2(false);
   }
 
-  const gerarGrafico = () =>{
+  const gerarGrafico1 = () =>{
     if(anosChecked.length===0) {
       alert("Escolha pelo menos 1 ano!");
     } else if(mesesChecked.length===0) {
@@ -88,11 +96,97 @@ function App() {
       alert("Escolha pelo menos 1 estação medidora!");
     }
     else {
-        setShowChart(!showChart);
+        setShowChart1(!showChart1);
+        setShowChart2(false);
     }
   }
 
-  const MeusGraficos = () => {
+  const gerarGrafico2 = () =>{
+    if(anosChecked.length===0) {
+      alert("Escolha pelo menos 1 ano!");
+    } else if(mesesChecked.length===0) {
+      alert("Escolha pelo menos 1 mês!");
+    } else if(estacoesChecked.length===0) {
+      alert("Escolha pelo menos 1 estação medidora!");
+    }
+    else {
+        setShowChart1(false);
+        setShowChart2(!showChart2);
+    }
+  }
+
+  const MeusGraficosG = () => {
+    const filtro2 = jMediaT.filter((x) => estacoesChecked.includes(x.id) 
+        && anosChecked.includes(x.Ano) 
+        && mesesChecked.includes(x.Mes)
+    );
+    //console.log(estacoesChecked);
+    console.log(filtro2);
+
+    let aux1 = ["Ano"];
+    let aux2 = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
+    mesesChecked.map((x) => aux1.push( aux2[x-1] ));
+    let data2 = [];
+    data2.push(aux1);
+
+    anosChecked.map((x) => {
+      let aux1 = [''+x];
+      filtro2.map((z) => {
+        if(z.Ano===x && mesesChecked.includes(z.Mes)) { aux1.push(z.Media)}
+      });
+      data2.push(aux1);
+    });
+    //console.log(data2);
+
+    const options2 = {
+      chart: {
+        title: "Volume médio de chuva mensal",
+        subtitle: "em milímetros"
+      }
+    };
+
+    let data3 = [["Mês","Chuva (mm)"],
+                ["Jan",0],["Fev",0],["Mar",0],
+                ["Abr",0],["Mai",0],["Jun",0],
+                ["Jul",0],["Ago",0],["Set",0],
+                ["Out",0],["Nov",0],["Dez",0],];
+
+    anosChecked.map((x) => {
+       filtro2.map((z) => {
+          if(z.Ano===x && mesesChecked.includes(z.Mes)) { 
+            data3[z.Mes][1] = data3[z.Mes][1] + z.Media;
+          }
+        });
+    });
+
+    const options3 ={
+      title: "Distribuição chuvas/mês",
+      is3D: true,
+    }
+
+
+    return (
+      <div className="chartRow">
+        <Chart
+          chartType="Bar"
+          width={"80vw"}
+          height={"50vh"}
+          data={data2}
+          options={options2}
+          border="1px"
+        />
+        <Chart
+          chartType="PieChart"
+          data={data3}
+          options={options3}
+          width={"100%"}
+          height={"400px"}
+       />
+      </div>
+    )
+  }
+
+  const MeusGraficosT = () => {
     const filtro1 = jMinMaxT.filter((x) => estacoesChecked.includes(x.id) 
                                            && anosChecked.includes(x.Ano) 
                                            && mesesChecked.includes(x.Mes)
@@ -114,8 +208,8 @@ function App() {
                                           && anosChecked.includes(x.Ano) 
                                           && mesesChecked.includes(x.Mes)
     );
-    console.log(estacoesChecked);
-    console.log(filtro2);
+    //console.log(estacoesChecked);
+    //console.log(filtro2);
 
     let aux1 = ["Ano"];
     let aux2 = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
@@ -124,17 +218,20 @@ function App() {
     data2.push(aux1);
        
     anosChecked.map((x) => {
-      let aux1 = [x];
+      let aux1 = [''+x];
       filtro2.map((z) => {
         if(z.Ano===x && mesesChecked.includes(z.Mes)) { aux1.push(z.Media)}
       });
       data2.push(aux1);
     });
-    console.log(data2);
+    //console.log(data2);
 
     const options2 = {
       title: "Temperaturas Médias Ano",
-      subtitle: ""
+      chart: {
+        title: "Temperaturas Médias Ano",
+        subtitle: "em graus celsior"
+      },
     };
  
     return(
@@ -143,7 +240,7 @@ function App() {
           chartType="AreaChart"
           width="90vw"
           height="35vh"
-         data={data1}
+          data={data1}
           options={options1}
           border="1px"
         />
@@ -154,7 +251,7 @@ function App() {
           data={data2}
           options={options2}
           border="1px"
-    />
+        />
       </div>
     )
   }
@@ -163,7 +260,8 @@ function App() {
     <div>
       <div className="App-top">
           <img src={logo} height="70px" alt="logotipo"/>
-          <BotaoTopo icone={<TfiBarChart />} title="Gerar gráficos" onClick={gerarGrafico}/>
+          <BotaoTopo icone={<TfiBarChart />} title="Gráficos Temperaturas" onClick={gerarGrafico1}/>
+          <BotaoTopo icone={<TfiBarChart />} title="Gráficos Chuvas" onClick={gerarGrafico2}/>
           <BotaoTopo icone={<TfiInfoAlt />} onClick={abrirAbout} title="Sobre o projeto"/>
       </div>
     <div id="page-home">
@@ -217,8 +315,12 @@ function App() {
       
       <div className="App-miolo">
         
-      {showChart && (
-            <MeusGraficos />
+      {showChart1 && (
+            <MeusGraficosT />
+      )}
+
+      {showChart2 && (
+            <MeusGraficosG />
       )}
         
       </div>
